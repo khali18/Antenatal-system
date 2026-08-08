@@ -41,7 +41,7 @@ document.getElementById('form-schedule-appointment')?.addEventListener('submit',
     if (res.success) {
       showToast(res.message, 'success');
       closeModal('modal-schedule-appointment');
-      loadView('appointments');
+      loadAppointmentsView();
     }
   } catch (err) {
     // Error handled by apiRequest
@@ -100,8 +100,8 @@ async function fetchAndFilterAppointments(filterType, btnEl) {
   }
 
   let endpoint = '/appointments';
-  if (filterType === 'today') endpoint = '/appointments?filter=today';
-  else if (filterType === 'upcoming') endpoint = '/appointments?filter=upcoming';
+  if (filterType === 'today') endpoint = '/appointments?range=today';
+  else if (filterType === 'upcoming') endpoint = '/appointments?range=upcoming';
   else if (filterType === 'missed') endpoint = '/appointments?status=Missed';
 
   try {
@@ -129,10 +129,10 @@ async function fetchAndFilterAppointments(filterType, btnEl) {
           <td>
             ${a.status !== 'Completed' && a.status !== 'Cancelled' ? `
               <div class="d-flex align-items-center gap-1">
-                <button class="btn btn-sm btn-success py-1 px-2 fw-semibold shadow-sm text-nowrap" onclick="updateAptStatus('${a._id}', 'Completed')">
+                <button type="button" class="btn btn-sm btn-success py-1 px-2 fw-semibold shadow-sm text-nowrap btn-apt-status" data-apt-id="${a._id}" data-status="Completed" onclick="updateAptStatus(this, '${a._id}', 'Completed')">
                   <i class="bi bi-check-circle-fill me-1"></i> Mark Done
                 </button>
-                <button class="btn btn-sm btn-outline-danger py-1 px-2 fw-semibold shadow-sm text-nowrap" onclick="updateAptStatus('${a._id}', 'Cancelled')">
+                <button type="button" class="btn btn-sm btn-outline-danger py-1 px-2 fw-semibold shadow-sm text-nowrap btn-apt-status" data-apt-id="${a._id}" data-status="Cancelled" onclick="updateAptStatus(this, '${a._id}', 'Cancelled')">
                   <i class="bi bi-x-circle-fill me-1"></i> Cancel
                 </button>
               </div>
@@ -146,7 +146,19 @@ async function fetchAndFilterAppointments(filterType, btnEl) {
   }
 }
 
-async function updateAptStatus(aptMongoId, status) {
+async function updateAptStatus(btnEl, aptMongoId, status) {
+  if (typeof btnEl === 'string') {
+    // If called with (aptMongoId, status) legacy signature
+    status = aptMongoId;
+    aptMongoId = btnEl;
+    btnEl = null;
+  }
+
+  if (btnEl) {
+    btnEl.disabled = true;
+    btnEl.innerHTML = `<span class="spinner-border spinner-border-sm me-1" role="status"></span> Updating...`;
+  }
+
   try {
     const res = await apiRequest(`/appointments/${aptMongoId}/status`, 'PATCH', { status });
     if (res.success) {
@@ -156,11 +168,30 @@ async function updateAptStatus(aptMongoId, status) {
         fetchAndFilterAppointments('all');
       } else if (typeof currentActiveProfileData !== 'undefined' && currentActiveProfileData && currentActiveProfileData.patient) {
         viewPatientProfile(currentActiveProfileData.patient._id);
+      } else {
+        loadAppointmentsView();
       }
     }
   } catch (err) {
     console.error('Error updating appointment status:', err);
+    showToast(err.message || 'Failed to update appointment status', 'danger');
+    if (btnEl) {
+      btnEl.disabled = false;
+      btnEl.innerHTML = status === 'Completed' ? '<i class="bi bi-check-circle-fill me-1"></i> Mark Done' : '<i class="bi bi-x-circle-fill me-1"></i> Cancel';
+    }
   }
 }
+
+// Global Event Delegation for Appointment Status Buttons
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-apt-status');
+  if (btn && !btn.disabled) {
+    const id = btn.getAttribute('data-apt-id');
+    const status = btn.getAttribute('data-status');
+    if (id && status) {
+      updateAptStatus(btn, id, status);
+    }
+  }
+});
 
 window.updateAptStatus = updateAptStatus;

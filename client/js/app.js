@@ -51,6 +51,14 @@ function showAppView() {
 
 // Single-Page View Router
 function loadView(viewName) {
+    const user = getCurrentUser();
+
+    // Guard Admin-only views (Users & Audit Logs)
+    if ((viewName === 'users' || viewName === 'audit-logs') && user && user.role !== 'admin') {
+        showToast(`Access Restricted: ${user.role === 'midwife_nurse' ? 'Midwife/Nurse' : 'Records Officer'} is not authorized to access System Administration.`, 'warning');
+        viewName = 'dashboard';
+    }
+
     // Update sidebar active link
     document.querySelectorAll('#sidebar .nav-link').forEach((link) => {
         if (link.getAttribute('data-view') === viewName) {

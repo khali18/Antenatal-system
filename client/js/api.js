@@ -31,6 +31,9 @@ function showToast(message, type = 'info') {
   `;
 
     container.insertAdjacentHTML('beforeend', toastHtml);
+    const toastEl = document.getElementById(toastId);
+    if (!toastEl) return;
+
     if (typeof bootstrap !== 'undefined' && bootstrap.Toast) {
         const bsToast = new bootstrap.Toast(toastEl, { delay: 4000 });
         bsToast.show();

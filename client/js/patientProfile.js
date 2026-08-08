@@ -94,21 +94,6 @@ function renderPatientProfileView(profile) {
       </div>
     </div>
 
-// Vanilla DOM Tab Switcher Fallback
-function switchProfileTab(targetTabId, btnEl) {
-    const tabs = document.querySelectorAll('#profileTab .nav-link');
-    tabs.forEach((t) => t.classList.remove('active'));
-    if (btnEl) btnEl.classList.add('active');
-
-    const panes = document.querySelectorAll('#profileTabContent .tab-pane');
-    panes.forEach((p) => {
-        p.classList.remove('show', 'active');
-        if (p.id === targetTabId) {
-            p.classList.add('show', 'active');
-        }
-    });
-}
-
     <!-- 10-Tab Navigation Bar -->
     <ul class="nav nav-tabs nav-tabs-custom mb-3" id="profileTab" role="tablist">
       <li class="nav-item">
@@ -508,3 +493,20 @@ function switchProfileTab(targetTabId, btnEl) {
     </div>
   `;
 }
+
+// Vanilla DOM Tab Switcher Fallback
+function switchProfileTab(targetTabId, btnEl) {
+  const tabs = document.querySelectorAll('#profileTab .nav-link');
+  tabs.forEach((t) => t.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+
+  const panes = document.querySelectorAll('#profileTabContent .tab-pane');
+  panes.forEach((p) => {
+    p.classList.remove('show', 'active');
+    if (p.id === targetTabId) {
+      p.classList.add('show', 'active');
+    }
+  });
+}
+
+window.switchProfileTab = switchProfileTab;

@@ -47,6 +47,15 @@ function handleLogout() {
     showLoginView();
 }
 
+window.handleLogout = handleLogout;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btnLogout = document.getElementById('btn-logout');
+    const dropdownLogout = document.getElementById('dropdown-logout');
+    if (btnLogout) btnLogout.addEventListener('click', handleLogout);
+    if (dropdownLogout) dropdownLogout.addEventListener('click', handleLogout);
+});
+
 function openChangePasswordModal(forced = false) {
     const modalEl = document.getElementById('modal-change-password');
     const modal = new bootstrap.Modal(modalEl);

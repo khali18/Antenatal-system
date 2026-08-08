@@ -144,7 +144,7 @@
         </div>
 
         <div class="p-3 border-top border-secondary border-opacity-25">
-          <button id="btn-logout"
+          <button id="btn-logout" onclick="handleLogout()"
             class="btn btn-outline-light btn-sm w-100 d-flex align-items-center justify-content-center gap-2"
             style="border-color: rgba(255,255,255,0.2);">
             <i class="bi bi-box-arrow-right"></i> Log Out
@@ -199,8 +199,8 @@
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item small text-danger" href="#" id="dropdown-logout"><i
-                      class="bi bi-box-arrow-right me-2"></i> Log Out</a></li>
+                <li><a class="dropdown-item small text-danger cursor-pointer" href="#" id="dropdown-logout"
+                    onclick="handleLogout()"><i class="bi bi-box-arrow-right me-2"></i> Log Out</a></li>
               </ul>
             </div>
           </div>

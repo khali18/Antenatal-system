@@ -1,0 +1,436 @@
+/* ==========================================================================
+   ANTENATAL & POSTNATAL CARE MANAGEMENT SYSTEM - MASTER STYLESHEET
+   ========================================================================== */
+
+:root {
+  --primary-color: #0f766e;
+  --primary-hover: #115e59;
+  --secondary-color: #0284c7;
+  --dark-bg: #0f172a;
+  --card-bg: #ffffff;
+  --sidebar-width: 260px;
+  --header-height: 70px;
+  --accent-light: #f0fdf4;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radius-lg: 12px;
+  --radius-md: 8px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  overflow-x: hidden;
+}
+
+/* App Wrapper & Layout */
+#app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Styling */
+#sidebar {
+  width: var(--sidebar-width);
+  background: var(--dark-bg);
+  color: #f8fafc;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+}
+
+#sidebar .sidebar-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+#sidebar .sidebar-header h5 {
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  font-size: 1.1rem;
+  margin: 0;
+  color: #ffffff;
+}
+
+#sidebar .sidebar-menu {
+  padding: 1rem 0;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+#sidebar .menu-header {
+  padding: 0.75rem 1.5rem 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+#sidebar .nav-link {
+  color: #cbd5e1;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  transition: all 0.2s ease;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#sidebar .nav-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#sidebar .nav-link.active {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border-left-color: #38bdf8;
+  font-weight: 600;
+}
+
+#sidebar .nav-link i {
+  font-size: 1.15rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Main Content Area */
+#main-content {
+  margin-left: var(--sidebar-width);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+/* Topbar Header */
+#topbar {
+  height: var(--header-height);
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 990;
+  box-shadow: var(--shadow-sm);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.user-profile-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  background: #f1f5f9;
+  border-radius: 50px;
+  border: 1px solid var(--border-color);
+}
+
+.role-pill {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  text-transform: uppercase;
+}
+
+.role-admin { background: #fee2e2; color: #991b1b; }
+.role-midwife_nurse { background: #ccfbf1; color: #0f766e; }
+.role-records_officer { background: #e0f2fe; color: #0369a1; }
+
+/* Disclaimer Banner */
+.disclaimer-bar {
+  background: #fef3c7;
+  color: #92400e;
+  border-bottom: 1px solid #fcd34d;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.825rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+}
+
+/* Content Body */
+.page-container {
+  padding: 2rem;
+  flex-grow: 1;
+}
+
+/* Summary Metric Cards */
+.metric-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.metric-card .card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.icon-teal { background: #ccfbf1; color: #0f766e; }
+.icon-blue { background: #e0f2fe; color: #0284c7; }
+.icon-emerald { background: #dcfce7; color: #16a34a; }
+.icon-amber { background: #fef3c7; color: #d97706; }
+.icon-rose { background: #ffe4e6; color: #e11d48; }
+
+.metric-card .metric-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.metric-card .metric-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Custom Cards & Panels */
+.custom-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.5rem;
+}
+
+.custom-card .card-header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+}
+
+.custom-card .card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.custom-card .card-body {
+  padding: 1.5rem;
+}
+
+/* Tables */
+.table-custom {
+  margin: 0;
+  width: 100%;
+}
+
+.table-custom th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table-custom td {
+  padding: 0.95rem 1rem;
+  font-size: 0.875rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.table-custom tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* Patient Profile Tabs */
+.nav-tabs-custom {
+  border-bottom: 2px solid var(--border-color);
+  gap: 0.5rem;
+}
+
+.nav-tabs-custom .nav-link {
+  border: none;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.nav-tabs-custom .nav-link:hover {
+  color: var(--primary-color);
+  background: #f1f5f9;
+}
+
+.nav-tabs-custom .nav-link.active {
+  color: var(--primary-color);
+  background: #ffffff;
+  border-bottom: 3px solid var(--primary-color);
+}
+
+/* Visual Timeline for Patient Journey */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 1.5rem 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 5px;
+  bottom: 5px;
+  width: 3px;
+  background: #cbd5e1;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.75rem;
+}
+
+.timeline-badge {
+  position: absolute;
+  left: -2rem;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.timeline-badge.badge-del { background: #e11d48; box-shadow: 0 0 0 2px #e11d48; }
+.timeline-badge.badge-pnc { background: #0284c7; box-shadow: 0 0 0 2px #0284c7; }
+
+.timeline-content {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Login Screen Styles */
+.login-body {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 2.5rem;
+}
+
+.login-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: var(--primary-color);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 1.5rem;
+}
+
+/* Toast Notifications Drawer */
+.toast-container-custom {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1100;
+}
+
+/* Mobile Sidebar Responsive Overlay */
+@media (max-width: 991.98px) {
+  #sidebar {
+    transform: translateX(-100%);
+  }
+  #sidebar.show-sidebar {
+    transform: translateX(0);
+  }
+  #main-content {
+    margin-left: 0;
+  }
+}
+
+/* Print Styles */
+@media print {
+  #sidebar, #topbar, .disclaimer-bar, .no-print, .btn, .nav-tabs {
+    display: none !important;
+  }
+  #main-content {
+    margin-left: 0 !important;
+  }
+  .page-container {
+    padding: 0 !important;
+  }
+  .custom-card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+}

@@ -19,7 +19,7 @@ async function loadPatientsView() {
         </div>
 
         <div class="d-flex align-items-center gap-2">
-          <button class="btn btn-primary btn-sm fw-semibold shadow-sm" onclick="openRegisterPatientModal()">
+          <button class="btn btn-primary btn-sm fw-semibold shadow-sm" data-bs-toggle="modal" data-bs-target="#modal-register-patient" onclick="openRegisterPatientModal()">
             <i class="bi bi-person-plus-fill me-1"></i> Register New Patient
           </button>
         </div>
@@ -131,10 +131,10 @@ function filterPatientsTable() {
           <button class="btn btn-outline-primary" title="View 360 Profile" onclick="viewPatientProfile('${p._id}')">
             <i class="bi bi-eye-fill me-1"></i> View
           </button>
-          <button class="btn btn-outline-secondary" title="Edit Patient" onclick="openEditPatientModal('${p._id}')">
+          <button class="btn btn-outline-secondary" title="Edit Patient" data-bs-toggle="modal" data-bs-target="#modal-edit-patient" onclick="openEditPatientModal('${p._id}')">
             <i class="bi bi-pencil-square me-1"></i> Edit
           </button>
-          <button class="btn btn-outline-danger" title="Delete Patient" onclick="confirmDeletePatient('${p._id}', '${escapeHtml(p.fullName)}')">
+          <button class="btn btn-outline-danger" title="Delete Patient" data-bs-toggle="modal" data-bs-target="#modal-delete-patient" onclick="confirmDeletePatient('${p._id}', '${escapeHtml(p.fullName)}')">
             <i class="bi bi-trash3-fill me-1"></i> Delete
           </button>
         </div>

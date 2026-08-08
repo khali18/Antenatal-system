@@ -5,31 +5,31 @@
 let currentActiveProfileData = null;
 
 async function viewPatientProfile(patientMongoId) {
-    const container = document.getElementById('view-content');
-    container.innerHTML = `
+  const container = document.getElementById('view-content');
+  container.innerHTML = `
     <div class="text-center py-5">
       <div class="spinner-border text-primary" role="status"></div>
       <p class="mt-2 text-muted">Loading Patient 360 Profile...</p>
     </div>
   `;
 
-    try {
-        const res = await apiRequest(`/patients/${patientMongoId}/profile`);
-        if (res.success) {
-            currentActiveProfileData = res.profile;
-            renderPatientProfileView(res.profile);
-        }
-    } catch (err) {
-        console.error('Error fetching patient profile:', err);
+  try {
+    const res = await apiRequest(`/patients/${patientMongoId}/profile`);
+    if (res.success) {
+      currentActiveProfileData = res.profile;
+      renderPatientProfileView(res.profile);
     }
+  } catch (err) {
+    console.error('Error fetching patient profile:', err);
+  }
 }
 
 function renderPatientProfileView(profile) {
-    const { patient, activePregnancy, ancVisits, appointments, delivery, baby, pncVisits, labRecords, medRecords } = profile;
-    const container = document.getElementById('view-content');
+  const { patient, activePregnancy, ancVisits, appointments, delivery, baby, pncVisits, labRecords, medRecords } = profile;
+  const container = document.getElementById('view-content');
 
-    // Top header with Quick Action Buttons
-    container.innerHTML = `
+  // Top header with Quick Action Buttons
+  container.innerHTML = `
     <!-- Patient Header Summary Card -->
     <div class="custom-card mb-4 border-start border-primary border-4">
       <div class="card-body">
@@ -55,18 +55,18 @@ function renderPatientProfileView(profile) {
             <button class="btn btn-outline-secondary btn-sm" onclick="window.print()">
               <i class="bi bi-printer me-1"></i> Print Profile Summary
             </button>
-            <button class="btn btn-outline-primary btn-sm" onclick="openScheduleAppointmentForPatient('${patient._id}', '${patient.fullName}')">
+            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-schedule-appointment" onclick="openScheduleAppointmentForPatient('${patient._id}', '${patient.fullName}')">
               <i class="bi bi-calendar-plus me-1"></i> Schedule Apt
             </button>
             ${!activePregnancy ? `
-              <button class="btn btn-primary btn-sm" onclick="openRegisterPregnancyModal('${patient._id}', '${patient.fullName}')">
+              <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-register-pregnancy" onclick="openRegisterPregnancyModal('${patient._id}', '${patient.fullName}')">
                 <i class="bi bi-plus-circle me-1"></i> Register Active Pregnancy
               </button>
             ` : `
-              <button class="btn btn-success btn-sm" onclick="openNewANCVisitModal('${patient._id}', '${activePregnancy._id}', '${patient.fullName}')">
+              <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modal-new-anc-visit" onclick="openNewANCVisitModal('${patient._id}', '${activePregnancy._id}', '${patient.fullName}')">
                 <i class="bi bi-journal-plus me-1"></i> Record ANC Visit
               </button>
-              <button class="btn btn-danger btn-sm" onclick="openRecordDeliveryModal('${patient._id}', '${activePregnancy._id}', '${patient.fullName}')">
+              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal-record-delivery" onclick="openRecordDeliveryModal('${patient._id}', '${activePregnancy._id}', '${patient.fullName}')">
                 <i class="bi bi-hospital me-1"></i> Record Delivery
               </button>
             `}

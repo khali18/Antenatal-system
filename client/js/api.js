@@ -41,34 +41,82 @@ function showToast(message, type = 'info') {
     toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
 }
 
-// Global Safe Bootstrap Modal Trigger Helpers
+// Global Safe Bootstrap Modal Trigger Helpers with Vanilla DOM Fallback
 function openModal(modalId) {
     const el = document.getElementById(modalId);
     if (!el) {
         console.error(`[Modal Error]: Element #${modalId} not found in DOM`);
         return;
     }
-    try {
-        let modalInstance = bootstrap.Modal.getInstance(el);
-        if (!modalInstance) {
-            modalInstance = new bootstrap.Modal(el);
+
+    // Try Bootstrap 5 instance first
+    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+        try {
+            let modalInstance = bootstrap.Modal.getInstance(el);
+            if (!modalInstance) {
+                modalInstance = new bootstrap.Modal(el);
+            }
+            modalInstance.show();
+            return;
+        } catch (err) {
+            console.warn(`[Bootstrap Modal Warning] Failed to use Bootstrap instance, using vanilla fallback:`, err);
         }
-        modalInstance.show();
-    } catch (err) {
-        console.error(`[Modal Error] Failed to open ${modalId}:`, err);
     }
+
+    // Resilient Vanilla DOM Fallback (Works 100% without external Bootstrap JS)
+    el.style.display = 'block';
+    el.classList.add('show');
+    el.removeAttribute('aria-hidden');
+    el.setAttribute('aria-modal', 'true');
+
+    // Create backdrop if not existing
+    let backdrop = document.getElementById(`backdrop-${modalId}`);
+    if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.id = `backdrop-${modalId}`;
+        backdrop.className = 'modal-backdrop fade show';
+        document.body.appendChild(backdrop);
+    }
+    document.body.classList.add('modal-open');
+
+    // Wire up close buttons
+    const closeBtns = el.querySelectorAll('[data-bs-dismiss="modal"], .btn-close');
+    closeBtns.forEach((btn) => {
+        btn.onclick = (e) => {
+            e.preventDefault();
+            closeModal(modalId);
+        };
+    });
 }
 
 function closeModal(modalId) {
     const el = document.getElementById(modalId);
     if (!el) return;
-    try {
-        const modalInstance = bootstrap.Modal.getInstance(el);
-        if (modalInstance) {
-            modalInstance.hide();
+
+    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+        try {
+            const modalInstance = bootstrap.Modal.getInstance(el);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+        } catch (err) {
+            // ignore and perform DOM cleanup
         }
-    } catch (err) {
-        console.error(`[Modal Error] Failed to close ${modalId}:`, err);
+    }
+
+    // Resilient Vanilla DOM Cleanup
+    el.style.display = 'none';
+    el.classList.remove('show');
+    el.setAttribute('aria-hidden', 'true');
+    el.removeAttribute('aria-modal');
+
+    const backdrop = document.getElementById(`backdrop-${modalId}`);
+    if (backdrop) backdrop.remove();
+
+    // Clean up modal-open class if no other modals shown
+    const openModals = document.querySelectorAll('.modal.show');
+    if (openModals.length === 0) {
+        document.body.classList.remove('modal-open');
     }
 }
 

@@ -123,10 +123,14 @@ async function fetchAndFilterAppointments(filterType, btnEl) {
           <td><small>${a.reason || 'Routine'}</small></td>
           <td><span class="badge ${a.status === 'Completed' ? 'bg-success' : a.status === 'Missed' ? 'bg-danger' : 'bg-primary'}">${a.status}</span></td>
           <td>
-            ${a.status === 'Upcoming' ? `
-              <button class="btn btn-sm btn-outline-success py-0 px-2 me-1" onclick="updateAptStatus('${a._id}', 'Completed')">Mark Done</button>
-              <button class="btn btn-sm btn-outline-danger py-0 px-2" onclick="updateAptStatus('${a._id}', 'Cancelled')">Cancel</button>
-            ` : '-'}
+            ${a.status !== 'Completed' && a.status !== 'Cancelled' ? `
+              <button class="btn btn-sm btn-outline-success py-0 px-2 me-1 shadow-sm" onclick="updateAptStatus('${a._id}', 'Completed')">
+                <i class="bi bi-check-circle-fill me-1"></i> Mark Done
+              </button>
+              <button class="btn btn-sm btn-outline-danger py-0 px-2 shadow-sm" onclick="updateAptStatus('${a._id}', 'Cancelled')">
+                <i class="bi bi-x-circle-fill me-1"></i> Cancel
+              </button>
+            ` : `<span class="badge bg-light text-secondary border">Closed</span>`}
           </td>
         </tr>
       `).join('');
@@ -141,7 +145,12 @@ async function updateAptStatus(aptMongoId, status) {
     const res = await apiRequest(`/appointments/${aptMongoId}/status`, 'PATCH', { status });
     if (res.success) {
       showToast(`Appointment status updated to ${status}`, 'success');
-      loadAppointmentsView();
+      const aptTable = document.getElementById('tbl-appointments-body');
+      if (aptTable) {
+        fetchAndFilterAppointments('all');
+      } else if (typeof currentActiveProfileData !== 'undefined' && currentActiveProfileData && currentActiveProfileData.patient) {
+        viewPatientProfile(currentActiveProfileData.patient._id);
+      }
     }
   } catch (err) {
     // Error handled by apiRequest

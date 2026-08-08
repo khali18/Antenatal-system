@@ -75,37 +75,52 @@ function renderPatientProfileView(profile) {
       </div>
     </div>
 
+// Vanilla DOM Tab Switcher Fallback
+function switchProfileTab(targetTabId, btnEl) {
+    const tabs = document.querySelectorAll('#profileTab .nav-link');
+    tabs.forEach((t) => t.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+
+    const panes = document.querySelectorAll('#profileTabContent .tab-pane');
+    panes.forEach((p) => {
+        p.classList.remove('show', 'active');
+        if (p.id === targetTabId) {
+            p.classList.add('show', 'active');
+        }
+    });
+}
+
     <!-- 10-Tab Navigation Bar -->
     <ul class="nav nav-tabs nav-tabs-custom mb-3" id="profileTab" role="tablist">
       <li class="nav-item">
-        <button class="nav-link active" id="tab-overview-btn" data-bs-toggle="tab" data-bs-target="#tab-overview"><i class="bi bi-person me-1"></i> Overview</button>
+        <button class="nav-link active" id="tab-overview-btn" data-bs-toggle="tab" data-bs-target="#tab-overview" onclick="switchProfileTab('tab-overview', this)"><i class="bi bi-person me-1"></i> Overview</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" id="tab-pregnancy-btn" data-bs-toggle="tab" data-bs-target="#tab-pregnancy"><i class="bi bi-person-heart me-1"></i> Pregnancy (${activePregnancy ? 'Active' : 'None'})</button>
+        <button class="nav-link" id="tab-pregnancy-btn" data-bs-toggle="tab" data-bs-target="#tab-pregnancy" onclick="switchProfileTab('tab-pregnancy', this)"><i class="bi bi-person-heart me-1"></i> Pregnancy (${activePregnancy ? 'Active' : 'None'})</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" id="tab-anc-btn" data-bs-toggle="tab" data-bs-target="#tab-anc"><i class="bi bi-journal-medical me-1"></i> ANC Visits (${ancVisits ? ancVisits.length : 0})</button>
+        <button class="nav-link" id="tab-anc-btn" data-bs-toggle="tab" data-bs-target="#tab-anc" onclick="switchProfileTab('tab-anc', this)"><i class="bi bi-journal-medical me-1"></i> ANC Visits (${ancVisits ? ancVisits.length : 0})</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" id="tab-timeline-btn" data-bs-toggle="tab" data-bs-target="#tab-timeline"><i class="bi bi-clock-history me-1"></i> Journey Timeline</button>
+        <button class="nav-link" id="tab-timeline-btn" data-bs-toggle="tab" data-bs-target="#tab-timeline" onclick="switchProfileTab('tab-timeline', this)"><i class="bi bi-clock-history me-1"></i> Journey Timeline</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" id="tab-appointments-btn" data-bs-toggle="tab" data-bs-target="#tab-appointments"><i class="bi bi-calendar-check me-1"></i> Appointments (${appointments ? appointments.length : 0})</button>
+        <button class="nav-link" id="tab-appointments-btn" data-bs-toggle="tab" data-bs-target="#tab-appointments" onclick="switchProfileTab('tab-appointments', this)"><i class="bi bi-calendar-check me-1"></i> Appointments (${appointments ? appointments.length : 0})</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" id="tab-delivery-btn" data-bs-toggle="tab" data-bs-target="#tab-delivery"><i class="bi bi-hospital me-1"></i> Delivery (${delivery ? 'Recorded' : '0'})</button>
+        <button class="nav-link" id="tab-delivery-btn" data-bs-toggle="tab" data-bs-target="#tab-delivery" onclick="switchProfileTab('tab-delivery', this)"><i class="bi bi-hospital me-1"></i> Delivery (${delivery ? 'Recorded' : '0'})</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" id="tab-baby-btn" data-bs-toggle="tab" data-bs-target="#tab-baby"><i class="bi bi-emoji-smile me-1"></i> Baby Records (${baby ? baby.length : 0})</button>
+        <button class="nav-link" id="tab-baby-btn" data-bs-toggle="tab" data-bs-target="#tab-baby" onclick="switchProfileTab('tab-baby', this)"><i class="bi bi-emoji-smile me-1"></i> Baby Records (${baby ? baby.length : 0})</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" id="tab-pnc-btn" data-bs-toggle="tab" data-bs-target="#tab-pnc"><i class="bi bi-bandaid me-1"></i> PNC Visits (${pncVisits ? pncVisits.length : 0})</button>
+        <button class="nav-link" id="tab-pnc-btn" data-bs-toggle="tab" data-bs-target="#tab-pnc" onclick="switchProfileTab('tab-pnc', this)"><i class="bi bi-bandaid me-1"></i> PNC Visits (${pncVisits ? pncVisits.length : 0})</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" id="tab-lab-btn" data-bs-toggle="tab" data-bs-target="#tab-lab"><i class="bi bi-vial me-1"></i> Lab Logs (${labRecords ? labRecords.length : 0})</button>
+        <button class="nav-link" id="tab-lab-btn" data-bs-toggle="tab" data-bs-target="#tab-lab" onclick="switchProfileTab('tab-lab', this)"><i class="bi bi-vial me-1"></i> Lab Logs (${labRecords ? labRecords.length : 0})</button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" id="tab-meds-btn" data-bs-toggle="tab" data-bs-target="#tab-meds"><i class="bi bi-capsule me-1"></i> Meds (${medRecords ? medRecords.length : 0})</button>
+        <button class="nav-link" id="tab-meds-btn" data-bs-toggle="tab" data-bs-target="#tab-meds" onclick="switchProfileTab('tab-meds', this)"><i class="bi bi-capsule me-1"></i> Meds (${medRecords ? medRecords.length : 0})</button>
       </li>
     </ul>
 

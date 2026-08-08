@@ -16,6 +16,7 @@ router.use(protect);
 router.route('/').get(getPatients).post(createPatient);
 router.get('/:id', getPatientById);
 router.get('/:id/full-profile', getPatientFullProfile);
+router.get('/:id/profile', getPatientFullProfile);
 router.put('/:id', updatePatient);
 router.patch('/:id/status', togglePatientStatus);
 router.delete('/:id', deletePatient);

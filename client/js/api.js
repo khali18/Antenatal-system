@@ -162,3 +162,32 @@ async function apiRequest(endpoint, method = 'GET', data = null) {
         throw err;
     }
 }
+
+// High Contrast / Dark Theme Toggle Engine
+function toggleAppTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setAppTheme(newTheme);
+    showToast(`Switched to ${newTheme === 'dark' ? 'Dark Eyesight High Contrast' : 'Light Standard'} theme`, 'info');
+}
+
+function setAppTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('anc_theme', theme);
+
+    const icon = document.getElementById('theme-toggle-icon');
+    if (icon) {
+        if (theme === 'dark') {
+            icon.className = 'bi bi-sun-fill fs-5 text-warning';
+        } else {
+            icon.className = 'bi bi-moon-fill fs-5 text-secondary';
+        }
+    }
+}
+
+function initAppTheme() {
+    const savedTheme = localStorage.getItem('anc_theme') || 'light';
+    setAppTheme(savedTheme);
+}
+
+document.addEventListener('DOMContentLoaded', initAppTheme);

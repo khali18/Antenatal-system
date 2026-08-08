@@ -16,11 +16,30 @@ async function viewPatientProfile(patientMongoId) {
   try {
     const res = await apiRequest(`/patients/${patientMongoId}/profile`);
     if (res.success) {
-      currentActiveProfileData = res.profile;
-      renderPatientProfileView(res.profile);
+      const profile = {
+        patient: res.patient,
+        activePregnancy: res.activePregnancy,
+        ancVisits: res.ancVisits || [],
+        appointments: res.appointments || [],
+        delivery: res.deliveries && res.deliveries.length > 0 ? res.deliveries[0] : (res.delivery || null),
+        baby: res.babies || [],
+        pncVisits: res.pncVisits || [],
+        labRecords: res.labRecords || [],
+        medRecords: res.medicationRecords || []
+      };
+      currentActiveProfileData = profile;
+      renderPatientProfileView(profile);
     }
   } catch (err) {
     console.error('Error fetching patient profile:', err);
+    if (container) {
+      container.innerHTML = `
+        <div class="alert alert-danger my-4 text-center">
+          <i class="bi bi-exclamation-triangle-fill fs-3 d-block mb-2"></i>
+          Failed to load patient profile details. <button class="btn btn-outline-danger btn-sm ms-2" onclick="loadView('patients')">Back to Directory</button>
+        </div>
+      `;
+    }
   }
 }
 

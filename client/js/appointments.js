@@ -153,6 +153,8 @@ async function updateAptStatus(aptMongoId, status) {
       }
     }
   } catch (err) {
-    // Error handled by apiRequest
+    console.error('Error updating appointment status:', err);
   }
 }
+
+window.updateAptStatus = updateAptStatus;

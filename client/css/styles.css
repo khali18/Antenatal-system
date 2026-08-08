@@ -541,6 +541,33 @@ body {
   color: #e2e8f0 !important;
 }
 
+[data-theme="dark"] .table-custom td strong {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .table-custom td .text-muted {
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .text-muted {
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .btn-outline-secondary {
+  color: #cbd5e1 !important;
+  border-color: #475569 !important;
+}
+
+[data-theme="dark"] .btn-outline-secondary:hover {
+  background-color: #334155 !important;
+  color: #ffffff !important;
+}
+
 [data-theme="dark"] .table-custom tbody tr:hover {
   background-color: #334155 !important;
 }

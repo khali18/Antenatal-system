@@ -115,21 +115,27 @@ async function fetchAndFilterAppointments(filterType, btnEl) {
       }
       tbody.innerHTML = res.appointments.map((a) => `
         <tr>
-          <td><span class="badge bg-light text-primary border">${a.appointmentId}</span></td>
-          <td class="fw-semibold cursor-pointer text-primary" onclick="viewPatientProfile('${a.patient ? a.patient._id : a.patientId}')">${a.patient ? a.patient.fullName : a.patientId}</td>
-          <td><span class="badge bg-light text-dark border">${a.type}</span></td>
-          <td>${a.appointmentDate ? a.appointmentDate.split('T')[0] : ''}</td>
-          <td>${a.appointmentTime}</td>
-          <td><small>${a.reason || 'Routine'}</small></td>
-          <td><span class="badge ${a.status === 'Completed' ? 'bg-success' : a.status === 'Missed' ? 'bg-danger' : 'bg-primary'}">${a.status}</span></td>
+          <td><span class="badge bg-primary-subtle text-primary border border-primary fw-semibold">${a.appointmentId}</span></td>
+          <td class="fw-semibold cursor-pointer text-primary text-decoration-underline-hover" onclick="viewPatientProfile('${a.patient ? a.patient._id : a.patientId}')">${a.patient ? a.patient.fullName : a.patientId}</td>
+          <td><span class="badge bg-info-subtle text-info border border-info fw-semibold">${a.type || 'ANC'}</span></td>
+          <td><strong class="text-dark">${a.appointmentDate ? a.appointmentDate.split('T')[0] : ''}</strong></td>
+          <td><small class="text-muted fw-semibold">${a.appointmentTime}</small></td>
+          <td><small class="text-muted">${a.reason || 'Routine Checkup'}</small></td>
+          <td>
+            <span class="badge ${a.status === 'Completed' ? 'bg-success text-white' : a.status === 'Missed' ? 'bg-danger text-white' : a.status === 'Cancelled' ? 'bg-secondary text-white' : 'bg-primary text-white'} p-2">
+              ${a.status}
+            </span>
+          </td>
           <td>
             ${a.status !== 'Completed' && a.status !== 'Cancelled' ? `
-              <button class="btn btn-sm btn-outline-success py-0 px-2 me-1 shadow-sm" onclick="updateAptStatus('${a._id}', 'Completed')">
-                <i class="bi bi-check-circle-fill me-1"></i> Mark Done
-              </button>
-              <button class="btn btn-sm btn-outline-danger py-0 px-2 shadow-sm" onclick="updateAptStatus('${a._id}', 'Cancelled')">
-                <i class="bi bi-x-circle-fill me-1"></i> Cancel
-              </button>
+              <div class="d-flex align-items-center gap-1">
+                <button class="btn btn-sm btn-success py-1 px-2 fw-semibold shadow-sm text-nowrap" onclick="updateAptStatus('${a._id}', 'Completed')">
+                  <i class="bi bi-check-circle-fill me-1"></i> Mark Done
+                </button>
+                <button class="btn btn-sm btn-outline-danger py-1 px-2 fw-semibold shadow-sm text-nowrap" onclick="updateAptStatus('${a._id}', 'Cancelled')">
+                  <i class="bi bi-x-circle-fill me-1"></i> Cancel
+                </button>
+              </div>
             ` : `<span class="badge bg-light text-secondary border">Closed</span>`}
           </td>
         </tr>
